@@ -1,5 +1,10 @@
 from tkinter import *
 import tkinter
+import socket
+import pickle
+
+client = socket.socket()
+client.connect(('localhost', 3690))
 root = Tk()
 labelReference = []
 whiteList = ['\u2656', '\u2658', '\u2657', '\u2655', '\u2654', '\u2657', '\u2658', '\u2656']
@@ -69,9 +74,9 @@ class MetaLabel:
 # Bind Every label with double click mouse event
 metaLabel={}
 index = 1
-for i in range(8):
+for i in range(8,0,-1):
     for j in range(8):
-        metaLabel[index] = (i,j)
+        metaLabel[index] = (chr(j+65), i)
         index += 1
 
 def onDoubleClick(event):
@@ -89,6 +94,8 @@ def onDoubleClick(event):
             print(metaLabel[int(val)])
             pos = metaLabel[int(val)]
         metaObject = MetaLabel(pos, char)
+        dataString = pickle.dumps(metaObject)
+        client.send(dataString)
         print("meta Object ",metaObject.character)
 for labelList in labelReference:
     for label in labelList:
