@@ -1,7 +1,6 @@
 import socket
 import threading, pickle
-
-
+import soldier
 soc = socket.socket()
 soc.bind(('localhost', 3690))
 soc.listen(4)
@@ -17,17 +16,14 @@ class ReceiveRequest(threading.Thread):
         self.client = client
     
     def processAndSend(self, char, pos):
-        finalPositions = []
+        position = []
 
-        if char == 'white:soldier':
-            if pos[1] == 2:
-                finalPositions.append((pos[0], 4))
-                finalPositions.append((pos[0], 3))
+        if char == 'white:soldier' or char == 'black:soldier':
+            sold = soldier.Soldier(char, pos)
+            position = sold.getPositions()
 
-            else:
-                finalPositions.append((pos[0], pos[1]+1))
-
-        self.client.send(finalPositions)            
+        dataString = pickle.dumps(position)
+        self.client.send(dataString)            
 
     def run(self):
         while True:
@@ -38,7 +34,7 @@ class ReceiveRequest(threading.Thread):
             print(positionString.character)
             self.processAndSend(positionString.character, positionString.position)
         self.client.close()
-while True:
-    client,addr = soc.accept()
-    receiver = ReceiveRequest(client)
-    receiver.start()
+# while True:
+client,addr = soc.accept()
+receiver = ReceiveRequest(client)
+receiver.start()
