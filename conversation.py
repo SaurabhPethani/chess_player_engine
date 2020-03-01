@@ -78,16 +78,33 @@ def bindLabel(labelReference):
         for label in labelList:
             label.bind("<Double-Button-1>", onDoubleClick)
 
-def action(position):
-    pass
+functionId= []
+labelBindList = []
+def action(event, label, text, originalPosition, labRef):
+    global labelBindList
+    if text == 'black:soldier':
+        label.config(text = '\u265F')
+    elif text == 'white:soldier':
+        label.config(text = '\u2659')
+    for lab in labelBindList:
+        lab.config(bg='lightgoldenrod')
+        lab.unbind('<Button>')
+    original = labRef[8-originalPosition[1]][ord(originalPosition[0])- 65]
+    original.unbind('Double-Button-1')
+    original.config(text='')
+    labelBindList.clear()
+
 def receivePositions(labelReference):
     while 1:
-        received = client.recv(1024)
+        received = client.recv(2048)
         receivedPosition = pickle.loads(received)
-        for item in receivedPosition:
+        print("Received Position ",receivedPosition)
+        for item in receivedPosition[2:]:
+            print("Item received : ",item)
             l1 = labelReference[8-item[1]][ord(item[0])- 65]
+            labelBindList.append(l1)
             l1.config(bg='cyan')
-            # l1.bind('<Button>', (event)->action((item[1], ord(item[0])-65), ))
+            l1.bind('<Button>', lambda event : action(event, label=l1, text=receivedPosition[0], originalPosition = receivedPosition[1], labRef = labelReference))
 
 def startReceiving(labelReference):
     recvPosThread = threading.Thread(target=receivePositions, args=(labelReference,))
