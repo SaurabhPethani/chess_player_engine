@@ -80,21 +80,37 @@ def bindLabel(labelReference):
 
 functionId= []
 labelBindList = []
-def action(event, label, text, originalPosition, labRef):
+
+def soldierAction(event, args):
     global labelBindList
-    if text == 'black:soldier':
-        label.config(text = '\u265F')
-    elif text == 'white:soldier':
-        label.config(text = '\u2659')
+    if args[2] == 'black:soldier':
+        args[1].config(text = '\u265F')
+    elif args[2] == 'white:soldier':
+        args[1].config(text = '\u2659')
+    if args[2] == 'black:eleph':
+        args[1].config(text= '\u265C')
+    elif args[2] == 'white:eleph':
+        args[1].config(text= '\u2656')
+    
     for lab in labelBindList:
         lab.config(bg='lightgoldenrod')
-        lab.unbind('<Button>')
-    original = labRef[8-originalPosition[1]][ord(originalPosition[0])- 65]
-    original.unbind('Double-Button-1')
+        lab.unbind('<Button-1>')
+    original = args[4][8-args[3][1]][ord(args[3][0])- 65]
+    original.unbind('<Double-Button-1>')
     original.config(text='')
     labelBindList.clear()
 
+def elephAction(event, args):
+    pass
+
+def camelAction(event, args):
+    pass
+
+def horseAction(event, args):
+    pass
+
 def receivePositions(labelReference):
+    global labelBindList
     while 1:
         received = client.recv(2048)
         receivedPosition = pickle.loads(received)
@@ -104,7 +120,8 @@ def receivePositions(labelReference):
             l1 = labelReference[8-item[1]][ord(item[0])- 65]
             labelBindList.append(l1)
             l1.config(bg='cyan')
-            l1.bind('<Button>', lambda event : action(event, label=l1, text=receivedPosition[0], originalPosition = receivedPosition[1], labRef = labelReference))
+            data= {1: l1, 2: receivedPosition[0], 3: receivedPosition[1], 4:labelReference}
+            l1.bind('<Button-1>', lambda event, arg=data: soldierAction(event, arg))
 
 def startReceiving(labelReference):
     recvPosThread = threading.Thread(target=receivePositions, args=(labelReference,))

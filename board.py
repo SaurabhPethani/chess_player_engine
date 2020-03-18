@@ -7,21 +7,10 @@ blackList = ['\u265C', '\u265E', '\u265D', '\u265B', '\u265A', '\u265D', '\u265E
 previousColor = 'gray'
 for i in range(8):
     ls = []       
-    if i % 2==1:
-        previousColor='gray'
-    else:   
-        previousColor='white'
-    for j in range(8):        
-        if previousColor == 'gray': 
-            l1 = Label(root, bg='lightgoldenrod',height=4, width=7)
-            l1.grid(row=i+1,column=j+1, padx=2, pady=2)
-            ls.append(l1)        
-            previousColor = 'white'
-        else:
-            l2 = Label(root, bg="lightgoldenrod",height=4, width=7)
-            l2.grid(row=i+1,column=j+1, padx=2, pady=2)
-            ls.append(l2)
-            previousColor = 'gray'
+    for j in range(8): 
+        l1 = Label(root, bg='lightgoldenrod',height=4, width=7)
+        l1.grid(row=i+1,column=j+1, padx=2, pady=2)
+        ls.append(l1)
     labelReference.append(ls)
 
 # Printing Black Pieces
