@@ -81,16 +81,27 @@ def bindLabel(labelReference):
 functionId= []
 labelBindList = []
 
-def soldierAction(event, args):
+def action(event, args):
     global labelBindList
     if args[2] == 'black:soldier':
         args[1].config(text = '\u265F')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
     elif args[2] == 'white:soldier':
         args[1].config(text = '\u2659')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
     if args[2] == 'black:eleph':
         args[1].config(text= '\u265C')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
     elif args[2] == 'white:eleph':
         args[1].config(text= '\u2656')
+        args[1].bind('<Double-Button-1>', onDoubleClick)        
+    if args[2] == 'black:camel':
+        args[1].config(text= '\u265D')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    elif args[2] == 'white:camel':
+        args[1].config(text= '\u2657')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+
     
     for lab in labelBindList:
         lab.config(bg='lightgoldenrod')
@@ -121,7 +132,7 @@ def receivePositions(labelReference):
             labelBindList.append(l1)
             l1.config(bg='cyan')
             data= {1: l1, 2: receivedPosition[0], 3: receivedPosition[1], 4:labelReference}
-            l1.bind('<Button-1>', lambda event, arg=data: soldierAction(event, arg))
+            l1.bind('<Button-1>', lambda event, arg=data: action(event, arg))
 
 def startReceiving(labelReference):
     recvPosThread = threading.Thread(target=receivePositions, args=(labelReference,))
