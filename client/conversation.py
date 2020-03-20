@@ -101,8 +101,25 @@ def action(event, args):
     elif args[2] == 'white:camel':
         args[1].config(text= '\u2657')
         args[1].bind('<Double-Button-1>', onDoubleClick)
+    if args[2] == 'black:horse':
+        args[1].config(text= '\u265E')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    elif args[2] == 'white:horse':
+        args[1].config(text= '\u2658')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    if args[2] == 'black:queen':
+        args[1].config(text= '\u265A')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    elif args[2] == 'white:queen':
+        args[1].config(text= '\u2654')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    if args[2] == 'black:king':
+        args[1].config(text= '\u265B')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
+    elif args[2] == 'white:king':
+        args[1].config(text= '\u2655')
+        args[1].bind('<Double-Button-1>', onDoubleClick)
 
-    
     for lab in labelBindList:
         lab.config(bg='lightgoldenrod')
         lab.unbind('<Button-1>')
@@ -110,16 +127,7 @@ def action(event, args):
     original.unbind('<Double-Button-1>')
     original.config(text='')
     labelBindList.clear()
-
-def elephAction(event, args):
-    pass
-
-def camelAction(event, args):
-    pass
-
-def horseAction(event, args):
-    pass
-
+    
 def receivePositions(labelReference):
     global labelBindList
     while 1:
