@@ -1,5 +1,6 @@
 from tkinter import *
-import conversation
+# import conversation
+from conversation import Client_Server_Converse
 root = Tk()
 labelReference = []
 whiteList = ['\u2656', '\u2658', '\u2657', '\u2655', '\u2654', '\u2657', '\u2658', '\u2656']
@@ -25,8 +26,8 @@ for i in range(8):
 for i in range(8):
     labelReference[6][i]['text'] = '\u2659'
 
-conversation = conversation.Client_Server_Converse(labelReference)
-conversation.initConversation()
+conversatio = Client_Server_Converse(labelReference)
+conversatio.initConversation()
 
 root.mainloop()
 # class MetaLabel:

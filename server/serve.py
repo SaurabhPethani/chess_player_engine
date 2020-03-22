@@ -1,6 +1,13 @@
 import socket
 import threading, pickle
-import soldier, eleph, camel, horse,queen, king
+from conversation import Client_Server_Converse
+from soldier import Soldier
+from eleph import Elephant
+from camel import Camel
+from horse import Horse
+from queen import Queen
+from king import King
+# from . import soldier, eleph, camel, horse, queen, king
 soc = socket.socket()
 soc.bind(('localhost', 3690))
 soc.listen(4)
@@ -19,27 +26,27 @@ class ReceiveRequest(threading.Thread):
         position = []
 
         if char == 'white:soldier' or char == 'black:soldier':
-            sold = soldier.Soldier(char, pos)
+            sold = Soldier(char, pos)
             position = sold.getPositions()
 
         elif char == 'white:eleph' or char == 'black:eleph':
-            elephant = eleph.Elephant(char, pos)
+            elephant = Elephant(char, pos)
             position = elephant.getPositions()
         
         elif char == 'white:camel' or char == 'black:camel':
-            cam = camel.Camel(char, pos)
+            cam = Camel(char, pos)
             position = cam.getPositions()
 
         elif char == 'white:horse' or char == 'black:horse':
-            hors = horse.Horse(char, pos)
+            hors = Horse(char, pos)
             position = hors.getPositions()
             
         elif char == 'white:queen' or char == 'black:queen':
-            qun = queen.Queen(char, pos)
+            qun = Queen(char, pos)
             position = qun.getPositions()
         
         elif char == 'white:king' or char == 'black:king':
-            kin = king.King(char, pos)
+            kin = King(char, pos)
             position = kin.getPositions()
 
         print("Positions: ",position)
