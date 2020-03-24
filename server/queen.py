@@ -10,27 +10,33 @@ class Queen(eleph.Elephant, camel.Camel):
         if self.pieceColor == 'white:queen':
             finalPositions.append('white:queen')
             finalPositions.append(self.position)
-            self.checkMiddleCase(finalPositions)
+            self.checkMiddleCase(finalPositions,'white')
             self.getDiagonals()
             if self.checkCorner(finalPositions):
                 return finalPositions
             elif self.checkBoundary(finalPositions):
                 return finalPositions
             else:
-                finalPositions.extend(self.up_up+self.up_lo+self.lo_up+self.lo_lo)
+                finalPositions.append(self.up_up)
+                finalPositions.append(self.up_lo)
+                finalPositions.append(self.lo_up)
+                finalPositions.append(self.lo_lo)
             return finalPositions
 
         else:
             finalPositions.append('black:queen')
             finalPositions.append(self.position)
-            self.checkMiddleCase(finalPositions)
+            self.checkMiddleCase(finalPositions, 'black')
             self.getDiagonals()
             if self.checkCorner(finalPositions):
                 return finalPositions
             elif self.checkBoundary(finalPositions):
                 return finalPositions
             else:
-                finalPositions.extend(self.up_up+self.up_lo+self.lo_up+self.lo_lo)
+                finalPositions.append(self.up_up)
+                finalPositions.append(self.up_lo)
+                finalPositions.append(self.lo_up)
+                finalPositions.append(self.lo_lo)
             return finalPositions
         
         return finalPositions

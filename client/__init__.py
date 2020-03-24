@@ -1,1 +1,1 @@
-import conversation
+from .conversation import Client_Server_Converse

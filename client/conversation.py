@@ -1,5 +1,5 @@
 import socket,pickle,threading
-
+from   filter_positions import FilterPosition
 client = socket.socket()
 
 class MetaLabel:
@@ -56,6 +56,7 @@ def metaLabeling():
 
 def onDoubleClick(event):
     labelName = str(event.widget)
+    print(event)
     if event.widget['text'] is not '':
         val = labelName[7:]
         print(str(event.widget['text'].encode('utf')[2])[1:])
@@ -130,12 +131,15 @@ def action(event, args):
     
 def receivePositions(labelReference):
     global labelBindList
+    print(labelReference)
     while 1:
         received = client.recv(2048)
         receivedPosition = pickle.loads(received)
         print("Received Position ",receivedPosition)
-        for item in receivedPosition[2:]:
-            print("Item received : ",item)
+        filterPos = FilterPosition(receivedPosition, labelReference)
+        validPos = filterPos.getList()
+        print("Valid Position: ",validPos)
+        for item in validPos:
             l1 = labelReference[8-item[1]][ord(item[0])- 65]
             labelBindList.append(l1)
             l1.config(bg='cyan')

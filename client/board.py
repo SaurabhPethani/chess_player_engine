@@ -5,6 +5,10 @@ root = Tk()
 labelReference = []
 whiteList = ['\u2656', '\u2658', '\u2657', '\u2655', '\u2654', '\u2657', '\u2658', '\u2656']
 blackList = ['\u265C', '\u265E', '\u265D', '\u265B', '\u265A', '\u265D', '\u265E', '\u265C']
+
+whiteListNum = [ord(num) for num in whiteList ]
+blackListNum = [ord(num) for num in blackList]
+
 previousColor = 'gray'
 for i in range(8):
     ls = []       
@@ -14,6 +18,7 @@ for i in range(8):
         ls.append(l1)
     labelReference.append(ls)
 
+print(labelReference)
 # Printing Black Pieces
 for i in range(8):
     labelReference[0][i]['text'] = blackList[i]
@@ -28,8 +33,8 @@ for i in range(8):
 
 conversatio = Client_Server_Converse(labelReference)
 conversatio.initConversation()
-
 root.mainloop()
+
 # class MetaLabel:
 #     def __init__(self, position, character):
 #         self.position = position

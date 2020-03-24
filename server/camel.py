@@ -5,35 +5,35 @@ class Camel:
 
     def checkCorner(self,finalPositions):
         if self.position[0] == 'A' and self.position[1] == 1:
-            finalPositions.extend(self.up_up)
+            finalPositions.append(self.up_up)
             return True
         elif self.position[0] == 'H' and self.position[1] == 8:
-            finalPositions.extend(self.lo_lo)
+            finalPositions.append(self.lo_lo)
             return True
         elif self.position[0] == 'A' and self.position[1] == 8:
-            finalPositions.extend(self.up_lo)
+            finalPositions.append(self.up_lo)
             return True
         elif self.position[0] == 'H' and self.position[1] == 1:
-            finalPositions.extend(self.lo_up)
+            finalPositions.append(self.lo_up)
             return True
         return False
     
     def checkBoundary(self, finalPositions):
         if self.position[1] == 1:
-            finalPositions.extend(self.lo_up)
-            finalPositions.extend(self.up_up)
+            finalPositions.append(self.lo_up)
+            finalPositions.append(self.up_up)
             return True
         elif self.position[1] == 8:
-            finalPositions.extend(self.lo_lo)
-            finalPositions.extend(self.up_lo)
+            finalPositions.append(self.lo_lo)
+            finalPositions.append(self.up_lo)
             return True
         elif self.position[0] == 'A':
-            finalPositions.extend(self.up_up)
-            finalPositions.extend(self.up_lo)
+            finalPositions.append(self.up_up)
+            finalPositions.append(self.up_lo)
             return True
         elif self.position[0] == 'H':
-            finalPositions.extend(self.lo_up)
-            finalPositions.extend(self.lo_lo)
+            finalPositions.append(self.lo_up)
+            finalPositions.append(self.lo_lo)
             return True
         return False
 
@@ -69,7 +69,10 @@ class Camel:
             elif self.checkBoundary(finalPositions):
                 return finalPositions
             else:
-                finalPositions.extend(self.up_up+self.up_lo+self.lo_up+self.lo_lo)
+                finalPositions.append(self.up_up)
+                finalPositions.append(self.up_lo)
+                finalPositions.append(self.lo_up)
+                finalPositions.append(self.lo_lo)
             return finalPositions
 
         else:
@@ -81,6 +84,9 @@ class Camel:
             elif self.checkBoundary(finalPositions):
                 return finalPositions
             else:
-                finalPositions.extend(self.up_up+self.up_lo+self.lo_up+self.lo_lo)
+                finalPositions.append(self.up_up)
+                finalPositions.append(self.up_lo)
+                finalPositions.append(self.lo_up)
+                finalPositions.append(self.lo_lo)
             return finalPositions            
         return finalPositions
