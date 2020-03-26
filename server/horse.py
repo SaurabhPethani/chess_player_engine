@@ -6,15 +6,12 @@ class Horse:
     def getAllPositions(self, finalPositions):
         letters = [chr(65+i) for i in range(8)]
         indexes = [i for i in range(1,9)]
-
         index1 = letters.index(self.position[0])
         index2 = indexes.index(self.position[1])
-
         ind1 = index1+2
         ind2 = index1-2
         ind3 = index1+1
         ind4 = index1-1
-
         ind5 = index2+2
         ind6 = index2-2
         ind7 = index2+1

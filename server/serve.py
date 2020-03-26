@@ -16,15 +16,16 @@ class MetaLabel:
     def __init__(self, position, character):
         self.position = position
         self.character = character
-
+globalTurn = {'YOUR_TURN':'YOUR_TURN', 'MY_TURN':'MY_TURN'}
+localTurn = 'MY_TURN'
 class ReceiveRequest(threading.Thread):
-    def __init__(self, client):
+    def __init__(self, client, turn):
         threading.Thread.__init__(self)
         self.client = client
+        self.turn = turn
     
     def processAndSend(self, char, pos):
         position = []
-
         if char == 'white:soldier' or char == 'black:soldier':
             sold = Soldier(char, pos)
             position = sold.getPositions()
@@ -48,22 +49,49 @@ class ReceiveRequest(threading.Thread):
         elif char == 'white:king' or char == 'black:king':
             kin = King(char, pos)
             position = kin.getPositions()
-
-        print("Positions: ",position)
         dataString = pickle.dumps(position)
-        self.client.send(dataString)            
-
+        self.client.send(dataString)
+           
+    def sendToOther(self, position):
+        data = pickle.dumps(position)
+        for connection in toAll:
+            if connection != self.client:
+                connection.send(data)
     def run(self):
+        global localTurn
         while True:
-            data = self.client.recv(1024)
-            positionString = pickle.loads(data)
-            print(type(positionString))
-            print(positionString.position)
-            print(positionString.character)
-            self.processAndSend(positionString.character, positionString.position)
+            if self.turn is localTurn:
+                pass
+            else:
+                print("Wating for ", globalTurn)
+                print("Completed ", self.turn)
+                data = self.client.recv(1024)
+                positionString = pickle.loads(data)
+                print("Server Received: ",positionString)
+                if type(positionString) is not list:    # if meta label object
+                    self.processAndSend(positionString.character, positionString.position)
+                elif type(positionString) is list:
+                    self.sendToOther(positionString)
+                    localTurn = globalTurn[self.turn]
         self.client.close()
-# while True:
-client,addr = soc.accept()
-receiver = ReceiveRequest(client)
-receiver.start()
-receiver.setDaemon(True)
+
+    def validate(self, color):
+        global colors
+        if color in colors:
+            colors.remove(color)
+            return color
+        color = colors[0]
+        colors.pop(0)
+        return color
+toAll = []
+colors = ['white', 'black']
+turns = ['YOUR_TURN', 'MY_TURN']
+while True:
+    client,addr = soc.accept()
+    toAll.append(client)
+    receiver = ReceiveRequest(client, turns[0])
+    turns.pop(0)
+    color = client.recv(1024).decode('utf-8')
+    result = receiver.validate(color)
+    client.send(str(result).encode('utf-8'))
+    receiver.start()

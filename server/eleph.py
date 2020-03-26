@@ -24,8 +24,6 @@ class Elephant:
             tempList=[]
             for j in letters[index1+1: ]:
                 tempList.append((j, self.position[1]))
-            finalPositions.append(tempList)
-            tempList=[]
         else:
             for i in indexes[0 if index2-1< 0 else index2-1: :-1]:
                 tempList.append((self.position[0], i))
@@ -41,8 +39,8 @@ class Elephant:
             tempList=[]
             for j in letters[index1+1: ]:
                 tempList.append((j, self.position[1]))
-            finalPositions.append(tempList)
-            tempList=[]
+        finalPositions.append(tempList)
+        tempList=[]
 
     def getPositions(self):
         finalPositions = []
